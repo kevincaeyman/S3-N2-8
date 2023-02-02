@@ -64,17 +64,16 @@ let products = [
     }
 ]
 // Array with products (objects) added directly with push(). Products in this array are repeated.
-let cartList = [];
+//let cartList = [];
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 let cart = [];
 
-let total = 0;
-
+let total = document.getElementById('total_price');
 let subtotalWithDiscount = 0
 
 // Exercise 1
-function buy(id) {
+/*function buy(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
 
@@ -86,26 +85,27 @@ function buy(id) {
         }
     }
     console.log(cartList)
-}
+}*/
 
 // Exercise 2
 function cleanCart() {
-    cartList.length = 0
-    console.log(cartList)
+    cart.length = 0
+    document.getElementById('cart_list').innerHTML = ''
+    document.getElementById('total_price').innerHTML = '0'
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
-    let total = 0
-    for (x = 0; x < cartList.length; x++) {
-        total += (cartList[x].price)
+    total = 0
+    for (x = 0; x < cart.length; x++) {
+        total += (cart[x].price)
     }
-    console.log(total)
+document.getElementById("total_price").innerHTML = total
 }
 
 // Exercise 4
-function generateCart() {
+/*function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
 
@@ -123,7 +123,7 @@ function generateCart() {
     }
     console.log(cart)
     printCart()
-}
+}*/
 
 // Exercise 5
 function applyPromotionsCart() {
@@ -171,15 +171,38 @@ function printCart() {
 
 
 
-// Exercise 7
+// ** Nivell II **
+// Exercise 8
 function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
+
+    products = products.map(v => ({ ...v, quantity: 1 }))
+
+    let foundProduct = products[id - 1]
+
+    for (x = 0; x < products.length; x++) {
+        if (id - 1 === x) {
+            cart.push(foundProduct)
+        }
+    }
+
+    for (x = 0; x < cart.length; x++) {
+        let index = cart.map(function (e) { return e.name; }).indexOf(cart[x].name);
+
+        if (index === -1) {
+            cart.push(cart[x])
+        }
+        if (index !== -1) {
+            cart[index].quantity += 1
+        }
+    }
+    
+    calculateTotal()
 }
 
-// ** Nivell II **
-// Exercise 8
+// Exercise 9
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
