@@ -71,6 +71,8 @@ let cart = [];
 
 let total = document.getElementById('total_price');
 let subtotalWithDiscount = 0
+products = products.map(v => ({ ...v, quantity: 1 }))
+
 
 // Exercise 1
 /*function buy(id) {
@@ -178,28 +180,19 @@ function addToCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
 
-    products = products.map(v => ({ ...v, quantity: 1 }))
+    let productIndex = cart.map(p => p.id).indexOf(id);
+    let foundProduct = products[id - 1];
 
-    let foundProduct = products[id - 1]
-
-    for (x = 0; x < products.length; x++) {
-        if (id - 1 === x) {
-            cart.push(foundProduct)
-        }
+    if (productIndex === -1) {
+        cart.push({...foundProduct, quantity: 1});
+    } else {
+        cart[productIndex].quantity += 1;
     }
 
-    for (x = 0; x < cart.length; x++) {
-        let index = cart.map(function (e) { return e.name; }).indexOf(cart[x].name);
+    console.log(cart);
 
-        if (index === -1) {
-            cart.push(cart[x])
-        }
-        if (index !== -1) {
-            cart[index].quantity += 1
-        }
-    }
-    
-    calculateTotal()
+    calculateTotal();
+    applyPromotionsCart();
 }
 
 // Exercise 9
